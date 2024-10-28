@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Message, ChatSession
+from .models import User, Message, ChatSession, Task
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils.timesince import timesince
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
@@ -167,6 +167,11 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Image dimensions should not be greater than 4000x4000 pixels.")
 
         return value
+    
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id', 'user', 'task_name', 'description', 'created_at']
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:

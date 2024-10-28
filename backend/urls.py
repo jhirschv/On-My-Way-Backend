@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 from .views import (UserViewSet)
 from .views import (UserViewSet, UserRegistrationView, UserDeleteAPIView, UserChatSessionsView,ChatSessionViewSet, MessageViewSet,
-GuestUserCreateAPIView, ProfilePictureUploadView)
+GuestUserCreateAPIView, ProfilePictureUploadView, TaskViewSet)
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import MyTokenObtainPairView
 
@@ -11,6 +11,7 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'chat_sessions', ChatSessionViewSet, basename='chat_session')
 router.register(r'messages', MessageViewSet, basename='messages')
+router.register(r'tasks', TaskViewSet, basename='task')
 
 urlpatterns = [
     path('', include(router.urls)),

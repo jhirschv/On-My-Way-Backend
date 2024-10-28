@@ -1,9 +1,10 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import (MyTokenObtainPairSerializer, UserSerializer, UserRegistrationSerializer, MessageSerializer, ChatSessionSerializer, GuestRegistrationSerializer)
+from .serializers import (MyTokenObtainPairSerializer, UserSerializer, UserRegistrationSerializer, MessageSerializer, ChatSessionSerializer, 
+GuestRegistrationSerializer, TaskSerializer)
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import (User, Message, ChatSession)
+from .models import (User, Message, ChatSession, Task)
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -81,6 +82,15 @@ class ProfilePictureUploadView(APIView):
             return Response(serializer.data)
         print("Serializer errors:", serializer.errors)  # Log serializer errors
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+    
+    def get_queryset(self):
+        return Task.objects.all()
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
     
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()

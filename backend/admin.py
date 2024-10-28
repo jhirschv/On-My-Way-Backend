@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Message
+from .models import User, Message, Task
 
 # Register your custom User model
 admin.site.register(User, UserAdmin)
@@ -20,3 +20,9 @@ class MessageAdmin(admin.ModelAdmin):
     search_fields = ('sender__username', 'content')  # Search by sender username and message content
 
 admin.site.register(Message, MessageAdmin)
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'task_name', 'user', 'created_at')
+    search_fields = ('task_name', 'description', 'user__username')
+    list_filter = ('created_at', 'user')
